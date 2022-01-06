@@ -2,7 +2,8 @@ class Dryer_Specyfication:
     """Dryer Specyfication Class"""
 
     #__slots__ = ("param_1","param_2","param_3","param_4","param_5","param_6","param_7","param_8","param_9","param_10")
-    def __init__(self, param_1:bool, param_2:bool, param_3:bool, param_4:bool, param_5:bool, param_6:bool, param_7:bool, param_8:bool, param_9:bool, param_10:bool) -> None:
+    def __init__(self, param_1:bool, param_2:bool, param_3:bool, param_4:bool, param_5:bool,
+     param_6:bool, param_7:bool, param_8:bool, param_9:bool, param_10:bool) -> None:
 
         self.param_1 = param_1
         self.param_2 = param_2
@@ -38,7 +39,8 @@ class Dryer:
             raise TypeError 
         self._model = model        
         self._price = price
-        self._dryer_specification = Dryer_Specyfication(param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8, param_9, param_10)
+        self._dryer_specification = Dryer_Specyfication(param_1,param_2,param_3,param_4,param_5,
+        param_6,param_7,param_8, param_9, param_10)
     
     def get_model(self) -> str:
         return self._model
