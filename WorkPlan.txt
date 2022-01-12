@@ -1,0 +1,42 @@
+Orginał: 
+Produkcja suszarni rozkłada się na kilka etapów 
+pierwszym z nich jest przygotowanie materiału ciencie wiercenie frezowanie walcowanie okręgów suszarni
+co zajmuje około 40 godzin dla 4 osób 
+kolejnym etapem jest przygotowanie elementów spawanych 
+takim jak podwozie wraz z podporami regulowanymi kosza Dolnego oraz komory wewnętrznej 
+jest to praca podzielona na 4 osoby po 30 godzin każda 
+tak przygotowane elementy zostają ze sobą składane w całość 
+na tym etapie produkcji są zaangażowane 3 osoby i trwa to ok 40 godzin 
+kolej y etap to montaż elementów zamówionych z firm zewnętrznych 
+szans montażu około 16 godzin
+
+Konstrukcja mechaniczna (1-9), moliwość zamówieniea u firmy zewnętrznej (2 tygodnie oczekiwania):
+
+1. Zamówienie materiału  1 osoba 2h  5 dni czekania
+2. Wiercenie 3 osoby 15h
+3. Frezowanie  3 osoby 15h
+4. Walcowanie okręgów 4 osoby 10h
+5. Przygotowanie ramy dolnej 4 osoby(2 spawaczy) 10h
+6. Przygotowanie poddpór kosza 4 osoby(2 spawaczy) 4h
+7. Przygotowanie kosza dolnego 4 osoby(2 spawaczy) 10h
+8. Przygotowanie komory wewnętrznej 4 osoby(2 spawaczy + wózek widłowy) 6h
+9. Składanie konstrukcji mechanicznej 3 osoby(1 spawacz + wózek widłowy) 10h
+
+10. Cynkowanie (firma zewnętrzna) 7 dni
+
+11. Montaz wentylatorów 2h 2 osoby (wózek widłowy)
+12. Montaz palika 1h 2 osoby (wózek widłowy)
+13. Montaonz silników 3 osoby (wózek widłowy) 2h 
+14. Montaz pionów i rur 3 osoby (wózek widłowy) 2h 
+15. Montaz systemu smarowania 2 osoby 4h
+
+16. Montaz przewodów zasilajacych 2h 1 osoba (elektryk)
+17. Montaz czujników 2h 1 osoba (elektryk)
+18. Montaz szafy serowniczej 1h 1 osoba (wózek widłowy)
+19. Pdłączenie szafy serowniczej 2h 1 osoba (elektryk)
+
+20. Tasty 8h 2osoby (kierownik)
+
+21. Pzygotowanie do transportu 2 osoby (wózek widłowy) 4h
+22. Transport 1 osoba (kierowca cięarówki) 8h
+23. Montarz 3 osoby (elektryk) 8h
