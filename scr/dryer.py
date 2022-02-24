@@ -33,8 +33,7 @@ class Dryer:
 
     def __init__(self, model:str, price:int,
      param_1:bool, param_2:bool, param_3:bool, param_4:bool, param_5:bool,
-     param_6:bool, param_7:bool, param_8:bool, param_9:bool, param_10:bool
-    ) -> None:
+     param_6:bool, param_7:bool, param_8:bool, param_9:bool, param_10:bool) -> None:
         if model not in self._models:
             raise TypeError 
         self._model = model        
