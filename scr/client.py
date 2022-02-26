@@ -1,3 +1,5 @@
+
+
 class Client:
     """
     Client class
@@ -16,13 +18,17 @@ class Client:
 
     """
 
-    def __init__(self, first_name:str, last_name:str, telephone:int, addres:str, email:str, nip:int) -> None:
+    def __init__(self,client_id:int, first_name:str, last_name:str, telephone:int, addres:str, email:str, nip:int) -> None:
+        self.client_id = client_id
         self._first_name = first_name
         self._last_name = last_name
         self._telephone = telephone
         self._addres = addres
         self._email = email
         self._nip = nip
+
+    def get_client_id(self) -> int:
+        return self.client_id
 
     def get_first_name(self) -> str:
         return self._first_name
@@ -44,6 +50,7 @@ class Client:
 
     def get_complet_information(self) -> dict:
         return {
+            "client_id" :self.client_id,
             "first_name" : self._first_name,
             "last_name" : self._last_name,
             "telephone" : self._telephone,

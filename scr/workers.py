@@ -1,3 +1,4 @@
+
 class Worker:
     """
     Worker class
@@ -18,7 +19,8 @@ class Worker:
 
     """
 
-    def __init__(self, first_name:str, last_name:str, telephone:int, addres:str, email:str, role_1:str,role_2:str) -> None:
+    def __init__(self, worker_id:int, first_name:str, last_name:str, telephone:int, addres:str, email:str, role_1:str,role_2:str) -> None:
+        self.worker_id = worker_id
         self._first_name = first_name
         self._last_name = last_name
         self._telephone = telephone
@@ -26,6 +28,9 @@ class Worker:
         self._email = email
         self._role_1 = role_1
         self._role_2 = role_2
+
+    def get_worker_id(self) -> int:
+        return self.worker_id
 
     def get_first_name(self) -> str:
         return self._first_name
