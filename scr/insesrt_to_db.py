@@ -1,21 +1,80 @@
 
 import models
+import create_content_to_db
 from sqlalchemy.orm import sessionmaker
+
+def initial_db_by_value(function):
+    def wraper(instance_number:int, sesion):
+        for i in range(1,instance_number+1,1):
+            function(i, session)
+    return wraper
+
+@initial_db_by_value
+def add_random_user(id:int, session):
+    client = models.Client(client_id=id,
+                           first_name=create_content_to_db.get_first_name(),
+                           last_name=create_content_to_db.get_last_name(),
+                           telephone=create_content_to_db.get_telepchone(),
+                           addres=create_content_to_db.get_address(),
+                           email=create_content_to_db.get_email(),
+                           nip=create_content_to_db.get_nip(),)
+    session.add(client)
+    session.commit()
+
+@initial_db_by_value
+def add_random_worker(id:int, session):
+    worker = models.Worker(worker_id=id,
+                           first_name=create_content_to_db.get_first_name(),
+                           last_name=create_content_to_db.get_last_name(),
+                           telephone=create_content_to_db.get_telepchone(),
+                           addres=create_content_to_db.get_address(),
+                           email=create_content_to_db.get_email(),
+                           function_1=create_content_to_db.get_function(),
+                           function_2=create_content_to_db.get_function(),)
+    session.add(worker)
+    session.commit()
+
+@initial_db_by_value
+def add_random_dryer(id:int, session):  
+    dryer = models.Dryer(dryer_id=id,
+                         model=create_content_to_db.get_dryer_model(),
+                         price=create_content_to_db.get_price(),
+                         elevated_mesh=create_content_to_db.get_param_bool_status(),
+                         central_lubrication=create_content_to_db.get_param_bool_status(),
+                         plc_control=create_content_to_db.get_param_bool_status(),
+                         scada_control=create_content_to_db.get_param_bool_status(),
+                         contactor_control=create_content_to_db.get_param_bool_status(),
+                         gas_burner=create_content_to_db.get_param_bool_status(),
+                         oil_burner=create_content_to_db.get_param_bool_status(),
+                         electric_powered=create_content_to_db.get_param_bool_status(),
+                         tractor_powered=create_content_to_db.get_param_bool_status(),
+                         double_discharge=create_content_to_db.get_param_bool_status(),)           
+    session.add(dryer)
+    session.commit()
+
+# @initial_db_by_value
+# def add_random_dryer(id:int, session):  
+#     dryer = models.Dryer(dryer_id=id,
+#                          model=create_content_to_db.get_dryer_model(),
+#                          price=create_content_to_db.get_price(),
+#                          elevated_mesh=create_content_to_db.get_param_bool_status(),
+#                          central_lubrication=create_content_to_db.get_param_bool_status(),
+#                          plc_control=create_content_to_db.get_param_bool_status(),
+#                          scada_control=create_content_to_db.get_param_bool_status(),
+#                          contactor_control=create_content_to_db.get_param_bool_status(),
+#                          gas_burner=create_content_to_db.get_param_bool_status(),
+#                          oil_burner=create_content_to_db.get_param_bool_status(),
+#                          electric_powered=create_content_to_db.get_param_bool_status(),
+#                          tractor_powered=create_content_to_db.get_param_bool_status(),
+#                          double_discharge=create_content_to_db.get_param_bool_status(),)           
+#     session.add(dryer)
+#     session.commit()
+
+
 
 Session = sessionmaker(bind=models.engine)
 session = Session()
 
-client = models.Client(client_id=1, first_name="Janu2222sz", last_name="Tracz",
-                        telephone=90890, addres="Krerw 12", email="re@wp.pl", nip=99887)
-# session.add(client)
-
-worker = models.Worker(worker_id=1, first_name="Janusz", last_name="Tracz", telephone=666555444,
-                       addres="Kew 12 Wrocław", email="ew@we.pl", role_1="sp", role_2="re")
-# session.add(worker)
-
-dryer = models.Dryer(dryer_id=2, model="model_a", price=1000, param_1=True, param_2=False,
-                     param_3=True, param_4=True, param_5=True, param_6=True, param_7=True,
-                     param_8=True, param_9=True, param_10=False)
-session.add(dryer)
-
-session.commit()
+add_random_user(20, session)
+add_random_worker(8,session)
+add_random_dryer(5, session)

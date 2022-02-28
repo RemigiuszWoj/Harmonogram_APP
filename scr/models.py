@@ -36,19 +36,20 @@ class Worker(Base):
     telephone = Column(Integer())
     addres = Column(String())
     email = Column(String())
-    role_1 = Column(String())
-    role_2 = Column(String())
+    function_1 = Column(String())
+    function_2 = Column(String())
 
     def __init__(self, worker_id:int, first_name:str, last_name:str,
-                 telephone:int, addres:str, email:str, role_1:str,role_2:str) -> None:
+                 telephone:int, addres:str, email:str, function_1:str,function_2:str) -> None:
         self.worker_id = worker_id
         self.first_name = first_name
         self.last_name = last_name
         self.telephone = telephone
         self.addres = addres
         self.email = email
-        self.role_1 = role_1
-        self.role_2 = role_2
+        self.function_1 = function_1
+        self.function_2 = function_2
+    
 
 class Dryer(Base):
     """Base Dryer Class"""
@@ -56,37 +57,55 @@ class Dryer(Base):
     dryer_id = Column(Integer(), primary_key=True)
     model = Column(String())
     price = Column(Integer())
-    param_1 = Column(Integer(), nullable=True)
-    param_2 = Column(Integer(), nullable=True)
-    param_3 = Column(Boolean(), nullable=True)
-    param_4 = Column(Boolean(), nullable=True)
-    param_5 = Column(Boolean(), nullable=True)
-    param_6 = Column(Boolean())
-    param_7 = Column(Boolean())
-    param_8 = Column(Boolean())
-    param_9 = Column(Boolean())
-    param_10 = Column(Boolean())
+    elevated_mesh = Column(Integer())  # Column(Boolean(), nullable=True)
+    central_lubrication = Column(Integer())
+    plc_control = Column(Integer())
+    scada_control = Column(Integer())
+    contactor_control = Column(Integer())
+    gas_burner = Column(Integer())
+    oil_burner = Column(Integer())
+    electric_powered = Column(Integer())
+    tractor_powered = Column(Integer())
+    double_discharge = Column(Integer())
 
-    _models = ("model_a", "model_b", "model_c")
+    _models = ("dryer_20_t", "dryer_35_t", "dryer_50_t")
 
     def __init__(self, dryer_id:int, model:str, price:int,
-                 param_1:bool, param_2:bool, param_3:bool, param_4:bool, param_5:bool,
-                 param_6:bool, param_7:bool, param_8:bool, param_9:bool, param_10:bool) -> None:
+                 elevated_mesh:bool, central_lubrication:bool, plc_control:bool, scada_control:bool, contactor_control:bool, gas_burner:bool, oil_burner:bool, electric_powered:bool,
+                 tractor_powered:bool, double_discharge:bool) -> None:
     
         if model not in self._models:
             raise TypeError 
         self.dryer_id = dryer_id
         self.model = model        
         self.price = price
-        self.param_1 = param_1
-        self.param_2 = param_2
-        self.param_3 = param_3
-        self.param_4 = param_4
-        self.param_5 = param_5
-        self.param_6 = param_6
-        self.param_7 = param_7
-        self.param_8 = param_8
-        self.param_9 = param_9
-        self.param_10 = param_10
+        self.elevated_mesh = elevated_mesh
+        self.central_lubrication = central_lubrication
+        self.plc_control = plc_control
+        self.scada_control = scada_control
+        self.contactor_control = contactor_control
+        self.gas_burner = gas_burner
+        self.oil_burner = oil_burner
+        self.electric_powered = electric_powered
+        self.tractor_powered = tractor_powered
+        self.double_discharge = double_discharge
     
+
+class Item(Base):
+    """Base item in magasin class"""
+    __tablename__ = "Magasin"
+    item_id = Column(Integer(), primary_key=True)
+    item_name = Column(String())
+    item_quantity = Column(Integer())
+    item_price = Column(Integer())
+    deliwery_time = Column(Integer())
+
+    def __init__(self, item_id:int, item_name:str, item_quantity:int,
+                 item_price:int, deliwery_time:int) -> None:
+        self.item_id = item_id
+        self.item_name = item_name
+        self.item_quantity = item_quantity
+        self.item_price = item_price
+        self.deliwery_time = deliwery_time
+
 Base.metadata.create_all(engine)
