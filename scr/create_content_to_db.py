@@ -21,6 +21,9 @@ FUNCTION = ["Welder", "Forklift operator", "Mechanic", "Electrician",
 
 DRYER_MODELS = ["dryer_20_t", "dryer_35_t", "dryer_50_t"]
 
+MATERIALS = ["Steel", "Wheels", "Frame", "Bin", "Engine", "Pipes",
+             "Vertical", "Snails", "Control cabinet", "PLC"]
+
 def get_first_name() -> str:
     return random.choice(FIRST_NAMES)
 
@@ -59,6 +62,7 @@ def get_item_price() -> int:
     return int(str(random.randint(1,2)) + str(random.randint(0,9)) + "".join(["0" for _ in range(2)]))
 
 def get_deliwery_time() -> int:
-    return int( "".join([str(random.randint(0,9)) for _ in range(2)]))
+    return int( "".join([str(random.randint(0,5)) for _ in range(2)]))
 
-
+def get_item_name(id) -> str:
+    return MATERIALS[id - 1]

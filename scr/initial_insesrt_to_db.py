@@ -52,23 +52,17 @@ def add_random_dryer(id:int, session):
     session.add(dryer)
     session.commit()
 
-# @initial_db_by_value
-# def add_random_dryer(id:int, session):  
-#     dryer = models.Dryer(dryer_id=id,
-#                          model=create_content_to_db.get_dryer_model(),
-#                          price=create_content_to_db.get_price(),
-#                          elevated_mesh=create_content_to_db.get_param_bool_status(),
-#                          central_lubrication=create_content_to_db.get_param_bool_status(),
-#                          plc_control=create_content_to_db.get_param_bool_status(),
-#                          scada_control=create_content_to_db.get_param_bool_status(),
-#                          contactor_control=create_content_to_db.get_param_bool_status(),
-#                          gas_burner=create_content_to_db.get_param_bool_status(),
-#                          oil_burner=create_content_to_db.get_param_bool_status(),
-#                          electric_powered=create_content_to_db.get_param_bool_status(),
-#                          tractor_powered=create_content_to_db.get_param_bool_status(),
-#                          double_discharge=create_content_to_db.get_param_bool_status(),)           
-#     session.add(dryer)
-#     session.commit()
+@initial_db_by_value
+def add_random_item(id:int, session):  
+    if id <= len(create_content_to_db.MATERIALS):
+        item = models.Item(item_id=id,
+                           item_name=create_content_to_db.get_item_name(id=id),
+                           item_quantity=create_content_to_db.get_item_quantity(),
+                           item_price=create_content_to_db.get_item_price(),
+                           deliwery_time=create_content_to_db.get_deliwery_time(),) 
+                                
+        session.add(item)
+        session.commit()
 
 
 
@@ -78,3 +72,4 @@ session = Session()
 add_random_user(20, session)
 add_random_worker(8,session)
 add_random_dryer(5, session)
+add_random_item(11, session)

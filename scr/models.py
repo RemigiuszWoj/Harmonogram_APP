@@ -100,8 +100,8 @@ class Item(Base):
     item_price = Column(Integer())
     deliwery_time = Column(Integer())
 
-    def __init__(self, item_id:int, item_name:str, item_quantity:int,
-                 item_price:int, deliwery_time:int) -> None:
+    def __init__(self, item_id:int, item_name:str, item_quantity:int, item_price:int,  
+                 deliwery_time:int) -> None:
         self.item_id = item_id
         self.item_name = item_name
         self.item_quantity = item_quantity
