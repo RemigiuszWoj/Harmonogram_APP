@@ -1,15 +1,18 @@
 import models
+import harmonogram
 import create_content_to_db
 from sqlalchemy.orm import sessionmaker
 
 def initial_db_by_value(function):
-    def wraper(instance_number:int, sesion):
+    def wraper(instance_number:int):
         for i in range(1,instance_number+1,1):
-            function(i, session)
+            function(i)
     return wraper
 
 @initial_db_by_value
-def add_random_user(id:int, session):
+def add_random_user(id:int):
+    Session = sessionmaker(bind=models.engine)
+    session = Session()
     client = models.Client(client_id=id,
                            first_name=create_content_to_db.get_first_name(),
                            last_name=create_content_to_db.get_last_name(),
@@ -21,7 +24,9 @@ def add_random_user(id:int, session):
     session.commit()
 
 @initial_db_by_value
-def add_random_worker(id:int, session):
+def add_random_worker(id:int):
+    Session = sessionmaker(bind=models.engine)
+    session = Session()
     worker = models.Worker(worker_id=id,
                            first_name=create_content_to_db.get_first_name(),
                            last_name=create_content_to_db.get_last_name(),
@@ -34,7 +39,9 @@ def add_random_worker(id:int, session):
     session.commit()
 
 @initial_db_by_value
-def add_random_dryer(id:int, session):  
+def add_random_dryer(id:int):
+    Session = sessionmaker(bind=models.engine)
+    session = Session()  
     dryer = models.Dryer(dryer_id=id,
                          model=create_content_to_db.get_dryer_model(),
                          price=create_content_to_db.get_price(),
@@ -52,7 +59,9 @@ def add_random_dryer(id:int, session):
     session.commit()
 
 @initial_db_by_value
-def add_random_item(id:int, session):  
+def add_random_item(id:int):  
+    Session = sessionmaker(bind=models.engine)
+    session = Session()
     if id <= len(create_content_to_db.MATERIALS):
         item = models.Item(item_id=id,
                            item_name=create_content_to_db.get_item_name(id=id),
@@ -65,10 +74,11 @@ def add_random_item(id:int, session):
 
 
 
-Session = sessionmaker(bind=models.engine)
-session = Session()
+# Session = sessionmaker(bind=models.engine)
+# session = Session()
 
-add_random_user(20, session)
-add_random_worker(8,session)
-add_random_dryer(5, session)
-add_random_item(11, session)
+add_random_user(20)
+add_random_worker(8)
+add_random_dryer(5)
+add_random_item(11)
+harmonogram.add_harmonogram()
