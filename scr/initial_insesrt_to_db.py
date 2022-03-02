@@ -1,4 +1,3 @@
-
 import models
 import create_content_to_db
 from sqlalchemy.orm import sessionmaker

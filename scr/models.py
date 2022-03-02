@@ -1,3 +1,4 @@
+from multiprocessing import set_forkserver_preload
 from sqlalchemy import create_engine
 from sqlalchemy import Column, String, Integer, Boolean
 from sqlalchemy.ext.declarative import declarative_base
@@ -71,7 +72,8 @@ class Dryer(Base):
     _models = ("dryer_20_t", "dryer_35_t", "dryer_50_t")
 
     def __init__(self, dryer_id:int, model:str, price:int,
-                 elevated_mesh:bool, central_lubrication:bool, plc_control:bool, scada_control:bool, contactor_control:bool, gas_burner:bool, oil_burner:bool, electric_powered:bool,
+                 elevated_mesh:bool, central_lubrication:bool, plc_control:bool, scada_control:bool,
+                 contactor_control:bool, gas_burner:bool, oil_burner:bool, electric_powered:bool,
                  tractor_powered:bool, double_discharge:bool) -> None:
     
         if model not in self._models:
@@ -107,5 +109,25 @@ class Item(Base):
         self.item_quantity = item_quantity
         self.item_price = item_price
         self.deliwery_time = deliwery_time
+
+class Harmonogram(Base):
+    """Base class in harmonogram"""
+    __tablename__ = "Harmonogram"
+    action_id = Column(Integer(), primary_key=True)
+    destription = Column(String())
+    work_time = Column(Integer())
+    workers = Column(String())
+    delay = Column(String())
+    material = Column(String())
+
+    def __init__(self, action_id: int, destription:str, work_time:int, workers:str,
+                 delay:str, material:str) -> None:
+        self.action_id = action_id
+        self.destription = destription
+        self.work_time = work_time
+        self.workers = workers
+        self.delay = delay
+        self.material = material
+
 
 Base.metadata.create_all(engine)
