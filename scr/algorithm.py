@@ -1,7 +1,9 @@
 #Base algorithm file
 
-from urllib.request import CacheFTPHandler
 
+from collections import deque
+from copy import deepcopy
+import data_csv
 
 class CArc():
     """
@@ -37,27 +39,109 @@ class CGraph():
         
         self.pomSucc = CArc()
         self.Succ = list()
-        for i in range(1,self.n + 1, 1):
-            self.Succ.append(self.pomSucc)
 
         self.pomPred = CArc()
         self.Pred = list()
-        for j in range(1,self.n + 1, 1):
-            self.Pred.append(self.pomPred)
 
         self.pomRes = CRes()
         self.Res = list()
-        for k in range(1,self.n + 1, 1):
-            self.Res.append(self.pomRes)
-        
+
         self.p:list[int] = list()
-        for l in range(1,self.n + 1, 1):
+
+        for _ in range(self.n):
+            #moe być od 0 do n #########################################
+        # for _ in range(1,self.n + 1, 1):
+            self.Succ.append(self.pomSucc)
+            self.Pred.append(self.pomPred)
+            self.Res.append(self.pomRes)
             self.p.append(0)
 
-a =CGraph(3)
-print(a.n)
-print(a.Succ[0].nd)
-print(a.Pred)
-print(a.Res)
-print(a.p)
 
+    def TOP_ORDER(self) -> list:
+        # LP = [None] * (self.n + 1)
+        LP = [None] * (self.n)
+        # print("LP",len(LP))
+        # print(LP[0])
+        # print(self.Pred[1])
+        # for i in range(self.n + 1):
+        for i in range(self.n):
+            # print("i",i)
+            #co tu sie ma dziać?#######################################
+            # LP[i] = self.Pred[i]
+            LP[i] = 1
+            # print(LP[i])
+        Q = deque()
+        for i in range(self.n):
+            if LP[i] == 0:
+                Q.appendleft(i)
+        
+        ORD = []
+        ORD.append(0)
+        while len(Q) > 0:
+            nd = Q.pop()
+            ORD.append(nd)
+            for arc in self.Succ[nd]:
+                if LP[arc.nd] - 1 == 0:
+                    Q.appendleft(arc.nd)
+        return deepcopy(ORD)
+
+
+    def Harm(self, ord:list) -> list:
+        S = [None] * (self.n)
+        S[0] = 0
+        for i in range(self.n):
+            nd = ord[i]
+            sm:int = 0
+            for arc in self.Pred[nd]:
+                if (sm < S[arc.nd] + self.p[arc.nd] + arc.weight):
+                    sm = S[arc.nd] + self.p[arc.nd] + arc.weight
+            S[nd] = sm
+        return S
+
+
+
+
+# G = CGraph()
+# H = list(None)
+
+###########Dopisac dodawanie ; na koncu wiersza ######################
+
+def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
+    # wczytanie i podział danych do dogadania#########################
+    file = data_csv.preprocesData(path=path)
+    file.preper_file()
+    # print(file.header)
+    # print(file.file_to_dict)
+    G = CGraph(len(file.file_to_dict["lp"]))
+    # print(G.n)
+    for i in range(G.n):
+        G.p[i] = file.file_to_dict["Czas wykonania"][i]
+        # print(G.p[i])
+    stringSeparators = [" and "]
+    for i in range(G.n):
+        sp = file.file_to_dict["Wymaga zakonczenia"][i].split(*stringSeparators)
+        # print(sp)
+        for s in sp:
+            print(i)
+            print(s)
+
+
+
+PARSOWANIE_DANYCH()
+
+
+
+
+
+
+
+
+
+
+
+# a =CGraph(3)
+# print("Succ",len(a.Succ))
+# print("Pred",len(a.Pred))
+# print("Res",len(a.Res))
+
+# a.TOP_ORDER()
