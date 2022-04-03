@@ -91,7 +91,7 @@ class CGraph():
         S[0] = 0
         for i in range(self.n):
             nd = ord[i]
-            sm:int = 0
+            sm = 0
             for arc in self.Pred[nd]:
                 if (sm < S[arc.nd] + self.p[arc.nd] + arc.weight):
                     sm = S[arc.nd] + self.p[arc.nd] + arc.weight
@@ -122,13 +122,45 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
         sp = file.file_to_dict["Wymaga zakonczenia"][i].split(*stringSeparators)
         # print(sp)
         for s in sp:
-            print(i)
-            print(s)
+            # print(i)
+            # print(s)
+            spx = s.split("(")
+            # print(spx)
+            nd = int(spx[0])
+            # print("nd: ", nd)
+            if nd == 0:
+                continue
+            weight = int(eval(spx[1].replace(")", "")))
+            # print("weight: ", weight)
+
+            a = CArc(nd=i, weight=weight)
+            G.Succ[nd] = a
+            # print( G.Succ[nd])
+            b = CArc(nd=nd, weight=weight)
+            G.Pred[i] = b
+            # print(G.Pred[i])
+        sp = file.file_to_dict["Pracownicy"][i].split(" ")
+        for s in sp:
+            if s == "":
+                continue
+            spx = s.split("x")
+            nbr = int(spx[0])
+            # print("nbr: ", nbr)
+            id = str(spx[1])
+            # print("id: ", id)
+            r = CRes(id=id, number=nbr)
+            G.Res[i] = r
+    return G
 
 
 
-PARSOWANIE_DANYCH()
+            
 
+G = PARSOWANIE_DANYCH()
+
+ord = G.TOP_ORDER()
+
+# H = G.Harm(ord=ord)
 
 
 
