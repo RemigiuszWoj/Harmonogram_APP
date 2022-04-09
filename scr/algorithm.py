@@ -48,7 +48,6 @@ class CGraph():
         for _ in range(self.n + 1):
             self.Succ.append([])
 
-
         for _ in range(self.n + 1):
         # for _ in range(1, self.n + 1, 1):
             self.Pred.append([])
@@ -117,13 +116,50 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
     for i in range(G.n):
 
         # 0 na początku czy na koncu?
-        
+
         # G.p[i] = int(file.file_to_dict["Czas wykonania"][i])
         G.p[i + 1] = int(file.file_to_dict["Czas wykonania"][i])
 
-    print(G.p)
+    # print(G.p)
 
 
+    stringSeparators = [" and "]
+    for i in range(1, G.n + 1):
+    # for i in range(1, G.n + 1, 1):
+        sp = file.file_to_dict["Wymaga zakonczenia"][i - 1].split(*stringSeparators)
+        
+        # print("sp: ", sp)
+        
+        for s in sp:
+            spx = s.split("(")
+            nd = int(spx[0])
+            
+            # print("nd: ", nd)
+
+            if nd == 0:
+                continue
+            weight = int(eval(spx[1].replace(")", "")))
+
+            # print("weight: ", weight)
+
+            a = CArc(nd=i, weight=weight)
+            # G.Succ[nd] = a
+            G.Succ[nd].append(a)
+
+            
+            # print(" G.Succ[nd]: ",  G.Succ[nd])
+
+            b = CArc(nd=nd, weight=weight)
+            # G.Pred[i] = b
+            G.Pred[i].append(b)
+
+
+            # print("G.Pred[i]: ", G.Pred[i])
+
+    print(" G.Succ: ",  G.Succ)
+    print("G.Pred: ", G.Pred)
+
+#### To do coś ie działa z przedziałami
 
 
     # stringSeparators = [" and "]
