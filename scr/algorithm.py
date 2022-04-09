@@ -112,34 +112,44 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
 
     G = CGraph(len(file.file_to_dict["lp"]))
 
-    for i in range(1,G.n + 1, 1):
-    # for i in range(G.n):
+    # print(file.file_to_dict["Czas wykonania"])
 
-        G.p[i] = file.file_to_dict["Czas wykonania"][i]
-    stringSeparators = [" and "]
     for i in range(G.n):
-    # for i in range(1,G.n + 1, 1):
-        sp = file.file_to_dict["Wymaga zakonczenia"][i].split(*stringSeparators)
-        for s in sp:
-            spx = s.split("(")
-            nd = int(spx[0])
-            if nd == 0:
-                continue
-            weight = int(eval(spx[1].replace(")", "")))
-            a = CArc(nd=i, weight=weight)
-            G.Succ[nd] = a
-            b = CArc(nd=nd, weight=weight)
-            G.Pred[i] = b
-        sp = file.file_to_dict["Pracownicy"][i].split(" ")
-        for s in sp:
-            if s == "":
-                continue
-            spx = s.split("x")
-            nbr = int(spx[0])
-            id = str(spx[1])
-            r = CRes(id=id, number=nbr)
-            G.Res[i] = r
-    return G
+
+        # 0 na początku czy na koncu?
+        
+        # G.p[i] = int(file.file_to_dict["Czas wykonania"][i])
+        G.p[i + 1] = int(file.file_to_dict["Czas wykonania"][i])
+
+    print(G.p)
+
+
+
+
+    # stringSeparators = [" and "]
+    # for i in range(G.n):
+    # # for i in range(1,G.n + 1, 1):
+    #     sp = file.file_to_dict["Wymaga zakonczenia"][i].split(*stringSeparators)
+    #     for s in sp:
+    #         spx = s.split("(")
+    #         nd = int(spx[0])
+    #         if nd == 0:
+    #             continue
+    #         weight = int(eval(spx[1].replace(")", "")))
+    #         a = CArc(nd=i, weight=weight)
+    #         G.Succ[nd] = a
+    #         b = CArc(nd=nd, weight=weight)
+    #         G.Pred[i] = b
+    #     sp = file.file_to_dict["Pracownicy"][i].split(" ")
+    #     for s in sp:
+    #         if s == "":
+    #             continue
+    #         spx = s.split("x")
+    #         nbr = int(spx[0])
+    #         id = str(spx[1])
+    #         r = CRes(id=id, number=nbr)
+    #         G.Res[i] = r
+    # return G
         
 
 # class CGraph():
@@ -258,11 +268,11 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
 
 G = PARSOWANIE_DANYCH()
 
-ord = G.TOP_ORDER()
+# ord = G.TOP_ORDER()
 
-H = G.Harm(ord=ord)
+# H = G.Harm(ord=ord)
 
-print(H)
+# print(H)
 
 # Test = CGraph(np=2)
 # print(Test.TOP_ORDER())
