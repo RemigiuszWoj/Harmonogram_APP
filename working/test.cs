@@ -98,7 +98,7 @@ public class CArc {
                     string[] spx = s.Split('x');
                     int nbr = int.Parse(spx[0]); 
                     int id = Symbols[spx[1]];
-                    CRes r = new CRes(); r.id = id; r.number = nbr;
+                    CRes r = new  CRes(); r.id = id; r.number = nbr;
                     G.Res[i].Add(r);
                    
                 }
