@@ -85,8 +85,10 @@ class CGraph():
             nd = Q.pop()
             ORD.append(nd)
             for arc in self.Succ[nd]:
-                if LP[arc.nd] - 1 == 0:
+                LP[arc.nd] = LP[arc.nd] - 1
+                if LP[arc.nd]  == 0:
                     Q.appendleft(arc.nd)
+        # print(ORD)
         return ORD        
 
     def Harm(self, ord:list) -> list:
@@ -94,10 +96,21 @@ class CGraph():
         S = [None] * (self.n + 1 )
         S[0] = 0
 
-        for i in range(1,self.n + 1, 1):
+        # print("len S: ", len(S))
+        # print("len ord: ", len(ord))
+
+
+        # for i in range(1,self.n + 1, 1):
+        for i in range(1, self.n + 1):
+        
+            # print(i)
+
             nd = ord[i]
             sm = 0
             for arc in self.Pred[nd]:
+                # print("arc.nd", arc.nd, " ",  S[arc.nd]," ",  self.p[arc.nd]," ", arc.weight)
+
+
                 if (sm < S[arc.nd] + self.p[arc.nd] + arc.weight):
                     sm = S[arc.nd] + self.p[arc.nd] + arc.weight
             S[nd] = sm
@@ -110,7 +123,7 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
     file.preper_file()
 
     G = CGraph(len(file.file_to_dict["lp"]))
-
+    # print(G.n)
     # print(file.file_to_dict["Czas wykonania"])
 
     for i in range(G.n):
@@ -124,8 +137,7 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
 
 
     stringSeparators = [" and "]
-    for i in range(1, G.n + 1):
-    # for i in range(1, G.n + 1, 1):
+    for i in range(1, G.n + 1, 1):
         sp = file.file_to_dict["Wymaga zakonczenia"][i - 1].split(*stringSeparators)
         
         # print("sp: ", sp)
@@ -152,40 +164,38 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
             b = CArc(nd=nd, weight=weight)
             # G.Pred[i] = b
             G.Pred[i].append(b)
-
-
+            # print("i:" ,i)
+            # print("nd: ,", nd, "weight: ", weight)
             # print("G.Pred[i]: ", G.Pred[i])
 
-    print(" G.Succ: ",  G.Succ)
-    print("G.Pred: ", G.Pred)
-
+    # print(" G.Succ: ",  G.Succ)
+    # print("G.Pred: ", G.Pred)
 #### To do coś ie działa z przedziałami
 
+        sp = file.file_to_dict["Pracownicy"][i - 1].split(" ")
 
-    # stringSeparators = [" and "]
-    # for i in range(G.n):
-    # # for i in range(1,G.n + 1, 1):
-    #     sp = file.file_to_dict["Wymaga zakonczenia"][i].split(*stringSeparators)
-    #     for s in sp:
-    #         spx = s.split("(")
-    #         nd = int(spx[0])
-    #         if nd == 0:
-    #             continue
-    #         weight = int(eval(spx[1].replace(")", "")))
-    #         a = CArc(nd=i, weight=weight)
-    #         G.Succ[nd] = a
-    #         b = CArc(nd=nd, weight=weight)
-    #         G.Pred[i] = b
-    #     sp = file.file_to_dict["Pracownicy"][i].split(" ")
-    #     for s in sp:
-    #         if s == "":
-    #             continue
-    #         spx = s.split("x")
-    #         nbr = int(spx[0])
-    #         id = str(spx[1])
-    #         r = CRes(id=id, number=nbr)
-    #         G.Res[i] = r
-    # return G
+        # print("sp: ", sp)
+
+        for s in sp:
+            if s == "":
+                continue
+            spx = s.split("x")
+
+            # print("spx: ", spx)
+
+            nbr = int(spx[0])
+            id = str(spx[1])
+
+            # print("nbr: ", nbr)
+            # print("id: ", id)
+
+            r = CRes(id=id, number=nbr)
+            
+            G.Res[i] = r
+
+    # print(G.Res)
+
+    return G
         
 
 # class CGraph():
@@ -303,12 +313,15 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv"):
             
 
 G = PARSOWANIE_DANYCH()
+# print(G.Succ[5][0].nd)
+# print(G.Succ[5][1].nd)
+# print(G.Succ[5][2].nd)
 
-# ord = G.TOP_ORDER()
+ord = G.TOP_ORDER()
 
-# H = G.Harm(ord=ord)
+H = G.Harm(ord=ord)
 
-# print(H)
+print("H: ", H)
 
 # Test = CGraph(np=2)
 # print(Test.TOP_ORDER())
