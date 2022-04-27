@@ -1,5 +1,5 @@
 
-import algorithm
+import graph
 import data_csv
 
 TRANSLATE_TABLE = {"K" : 1, "E" : 2, "U" : 3, "W" : 4, "S": 5, "C": 6, "-" : 99 }
@@ -14,7 +14,7 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv", nr_job = 0):
     file = data_csv.preprocesData(path=path)
     file.preper_file()
 
-    G = algorithm.CGraph(len(file.file_to_dict["lp"]))
+    G = graph.CGraph(len(file.file_to_dict["lp"]))
 
     for i in range(G.n):
         G.job[i + 1] = nr_job
@@ -33,9 +33,9 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv", nr_job = 0):
             if nd == 0:
                 continue
             weight = int(eval(spx[1].replace(")", "")))
-            a = algorithm.CArc(nd=i, weight=weight)
+            a = graph.CArc(nd=i, weight=weight)
             G.Succ[nd].append(a)
-            b = algorithm.CArc(nd=nd, weight=weight)
+            b = graph.CArc(nd=nd, weight=weight)
             G.Pred[i].append(b)
 
         sp = file.file_to_dict["Pracownicy"][i - 1].split(" ")
@@ -48,7 +48,7 @@ def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv", nr_job = 0):
             id = str(spx[1])
             id = chat_to_int(id)
 
-            r = algorithm.CRes(id=id, number=nbr)  
+            r = graph.CRes(id=id, number=nbr)  
             G.Res[i].append(r)
     return G
 
@@ -95,3 +95,16 @@ def preper_orders(orders):
         orders[i]["MODEL"] = type_to_csv(orders[i]["MODEL"])
         # print(orders)
     return orders
+
+def preper_woreks(workers_data:dict) -> list:
+    wokrers_list = []
+    for i in range(0, len(workers_data)):
+        tmp =[]
+        if workers_data[i]["UMIEJETNOSC_1"] != 99:
+            tmp.append(workers_data[i]["UMIEJETNOSC_1"])
+        if workers_data[i]["UMIEJETNOSC_2"] != 99:
+            tmp.append(workers_data[i]["UMIEJETNOSC_2"])
+        if workers_data[i]["UMIEJETNOSC_3"] != 99:
+            tmp.append(workers_data[i]["UMIEJETNOSC_3"])
+        wokrers_list.append(tmp)
+    return wokrers_list

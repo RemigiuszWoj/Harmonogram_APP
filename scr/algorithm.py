@@ -1,89 +1,63 @@
-from collections import deque
+import parser
 
-class CArc():
+class Algorithm():
     """
-    CArc class;
-    :param: nd;
-    :param: weight; 
+    Base algorithm class
     """
-    def __init__(self, nd:int = 0, weight:int = 0) -> None:
-        self.nd = nd
-        self.weight = weight
 
-class CRes():
-    """
-    CRes class;
-    :param: id;
-    :param: number; 
-    """
-    def __init__(self, id:int = 0, number:int = 0) -> None:
-        self.id = id
-        self.number = number
+    def __init__(self, Graph, workers_data:dict) -> None:
+        self.Graph = Graph
+        self.workers_data = workers_data
+        self.wokrers_list = parser.preper_woreks(workers_data=workers_data)
+        self.wn = len(workers_data)
+        self.order = self.Graph.TOP_ORDER()
+        self.preproces()
+    
+    def preproces(self):
+        self.permutation = []
+        for _ in range(self.wn + 1):
+            self.permutation.append([])
 
-class CGraph():
-    """
-    CGraph class;
-    :param: n;
-    :param: Succ; 
-    :param: Pred; 
-    :param: Res; 
-    """
-    def __init__(self, np:int=0) -> None:
+        self.Z = []
+        for _ in range(self.wn + 1):
+            self.Z.append(0)
 
-        self.n = np 
-        self.Succ = list()
-        self.Pred = list()
-        self.Res = list()
-        self.p = list()
-        self.job = list() 
+    def generate_permutation(self):
 
-        for _ in range(self.n + 1):
-            self.Succ.append([])
+        # e = order[1]
+        # print(order)
+        # e = 5
+        iteracje = 1
+        for e in self.order:
+            if e == 0:
+                continue
+            
+            USE_WORKERS = []
+            ID_WORKERS = []
+            # print(USE_WORKERS, iteracje, "uw")
+            # print(ID_WORKERS, iteracje,"id")
+            for i in self.Graph.Res[e]:
 
-        for _ in range(self.n + 1):
-            self.Pred.append([])
+                for k in range(1,self.wn + 1):
+                    # print(k)
+                    if i.id in self.wokrers_list[k - 1]:
 
-        for _ in range(self.n + 1):
-            self.Res.append([])
+                        if k not in USE_WORKERS:
+                            ID_WORKERS.append(k)
+                # print(ID_WORKERS)
 
-        for _ in range(self.n + 1):
-            self.p.append(0)
+                for l in range(1,i.number+1):
+                    USE_WORKERS.append(ID_WORKERS.pop(0))
+                # print(USE_WORKERS)
+            iteracje += 1
+            # if iteracje == 4:
+            #     break
+                
 
-        for _ in range(self.n + 1):
-            self.job.append(0)
+            # print(ID_WORKERS)
+            # print(USE_WORKERS)
 
-    def TOP_ORDER(self) -> list:
-        LP = [None] * (self.n + 1)
-        for i in range(1,self.n + 1, 1):
-            LP[i] = len(self.Pred[i])
+            for m in USE_WORKERS:
+                self.permutation[m].append(e)
+        print(self.permutation)
 
-        Q = deque()
-        for i in range(1,self.n + 1, 1):
-            if LP[i] == 0:
-                Q.appendleft(i)
-
-        ORD = []
-        ORD.append(0)
-        while len(Q) > 0:
-            nd = Q.pop()
-            ORD.append(nd)
-            for arc in self.Succ[nd]:
-                LP[arc.nd] = LP[arc.nd] - 1
-                if LP[arc.nd]  == 0:
-                    Q.appendleft(arc.nd)
-
-        return ORD        
-
-    def Harm(self, ord:list) -> list:
-
-        S = [None] * (self.n + 1 )
-        S[0] = 0
-
-        for i in range(1, self.n + 1):
-            nd = ord[i]
-            sm = 0
-            for arc in self.Pred[nd]:
-                if (sm < S[arc.nd] + self.p[arc.nd] + arc.weight):
-                    sm = S[arc.nd] + self.p[arc.nd] + arc.weight
-            S[nd] = sm
-        return S
