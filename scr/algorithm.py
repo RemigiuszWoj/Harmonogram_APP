@@ -14,10 +14,10 @@ class Algorithm():
         self.preproces()
     
     def preproces(self):
-        self.permutation = []
-        for _ in range(self.wn + 1):
-            self.permutation.append([])
-
+        # self.permutation = []
+        # for _ in range(self.wn + 1):
+        #     self.permutation.append([])
+        self.permutation = [[] for _ in range(self.wn+1)]
         self.Z = []
         for _ in range(self.wn + 1):
             self.Z.append(0)
@@ -28,6 +28,7 @@ class Algorithm():
         # print(order)
         # e = 5
         iteracje = 1
+        print("graph order: ", self.order)
         for e in self.order:
             if e == 0:
                 continue
@@ -44,6 +45,7 @@ class Algorithm():
 
                         if k not in USE_WORKERS:
                             ID_WORKERS.append(k)
+                            # print(f"k:{k}, workers:{USE_WORKERS}")
                 # print(ID_WORKERS)
 
                 for l in range(1,i.number+1):
