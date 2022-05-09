@@ -43,32 +43,11 @@ def get_job():
     G_list.append(G1)
     return G_list
 
-
-# # GP = generate_full_graph()
-# GP = test_graph()
-
-workers_data = parser.PARS_WORKERS()
-wokrers_list = parser.preper_woreks(workers_data=workers_data)
-
-# Algorytm = algorithm.Algorithm(Graph=GP, workers_data=workers_data)
-
-# Algorytm.generate_permutation()
-
 def create_G(G_list, sequence, nb):
     GP = graph.CGraph(np=0)
     for i in range(1,nb+1):
         GP.mergeGraf(G1=G_list[sequence[i]-1])
     return GP
-
-sequence =[0, 1, 2]
-nb = 2
-
-G_list = get_job()
-
-G = create_G(G_list=G_list, sequence=sequence, nb=nb) 
-# print(G.TOP_ORDER())
-ord = G.TOP_ORDER()
-
 
 def easy_asign(workers, Graph):
     a = []
@@ -147,144 +126,96 @@ def c_max2(m, workers, Graph, a, pi):
             Z[j] = z
     return C, max(C)
 
-#def IS_TOP(pi, Graph)
-#insertowanie na wszystkie pozycje , liczenie cmax, zmiana i dalej 
-
-
-a = easy_asign(Graph=G, workers=wokrers_list)
-
-C0, max_C0 = c_max2(m=len(wokrers_list),
- workers=wokrers_list,Graph=G, a=a, pi=ord)
-
-print(max_C0)
-
 def move_elem(l, oldindex, newindex):
     l.insert(newindex, l.pop(oldindex))
 
-move_elem(ord,45,43)
+def IS_TOP(pi, Graph):
+    ps = [0 for _ in range(Graph.n + 1)]
+    for i in range(1, G.n):
+        ps[pi[i]] = i
+    for nd in range(1, Graph.n + 1):
+        for a in G.Succ[nd]:
+            if ps[nd] > ps[a.nd]:
+                return False
+        return True
 
-a1 = easy_asign(Graph=G, workers=wokrers_list)
+def optimze_c_max(Graph, workers_list, ord):
+    best_C, best_max_C = 0, 0
+    a0 = easy_asign(Graph=Graph, workers=workers_list)
 
-C1, max_C1 = c_max2(m=len(wokrers_list),
- workers=wokrers_list,Graph=G, a=a1, pi=ord)
+    C0, max_C0 = c_max2(m=len(workers_list),
+    workers=workers_list,Graph=Graph, a=a0, pi=ord)
 
-print(max_C1)
+    best_C = C0
+    best_max_C = max_C0
 
-move_elem(ord,27,34)
+    for i in range(1,len(ord)):
+        for j in range(1,len(ord)):
+            move_elem(l=ord,oldindex=i,newindex=j)
+            if IS_TOP(pi=ord,Graph=Graph) == False:
+                move_elem(l=ord,oldindex=j,newindex=i)
+            else:
+                a1 = 0
+                C1, max_C1 = 0, 0
 
-a2 = easy_asign(Graph=G, workers=wokrers_list)
-print(a)
-C2, max_C2 = c_max2(m=len(wokrers_list),
- workers=wokrers_list,Graph=G, a=a2, pi=ord)
-print(C2)
-print(max_C2)
+                a1 = easy_asign(Graph=G, workers=workers_list)
 
+                C1, max_C1 = c_max2(m=len(workers_list),
+                workers=workers_list,Graph=Graph, a=a1, pi=ord)
 
-
-
-
-
-
-
-# print(wokrers_list)
-
-# # from copy import deepcopy
-
-# ord = G.TOP_ORDER()
-
-# H = G.Harm(ord=ord)
-
-# G1 = parser.PARSOWANIE_DANYCH(path ="dryer_20_t.csv", nr_job = 2)
-
-# def mergeGraf(G, G1):
-#     for i in range(1,len(G1.p)):
-#         G.p.append(G1.p[i])
-#         G.job.append(G1.job[i])
-#         G.Res.append(G1.Res[i])
-
-#     for i in range(1,len(G1.Succ)):
-#         pom =[]
-#         pom = deepcopy(G1.Succ[i])
-#         for j in range(0,len(pom)):
-#             pom[j].nd = pom[j].nd + G.n 
-#         G.Succ.append(pom)
-        
-#     for i in range(1,len(G1.Pred)):
-#         pom =[]
-#         pom = deepcopy(G1.Pred[i])
-#         for j in range(0,len(pom)):
-#             pom[j].nd = pom[j].nd + G.n 
-#         G.Pred.append(pom)
-       
-#     G.n += G1.n
-    
-#     return G
+                if best_max_C > max_C1:
+                    best_max_C = max_C1
+                    best_C = C1
+    return best_C, best_max_C
 
 
+workers_data = parser.PARS_WORKERS()
+wokrers_list = parser.preper_woreks(workers_data=workers_data)
 
-# mergeGraf(G,G1)
+sequence =[0, 1, 2]
+nb = 2
 
+G_list = get_job()
 
-# orders = parser.PARS_ORDERS()
+G = create_G(G_list=G_list, sequence=sequence, nb=nb) 
+ord = G.TOP_ORDER()
 
-# orders = parser.preper_orders(orders)
+best_C, best_max_C = optimze_c_max(Graph=G, workers_list=wokrers_list, ord=ord)
 
-# # print(orders)
-
-# orders_list = []
-# for i in range(0, len(orders)):
-#     orders_list.append(orders[i]["MODEL"])
-
-# # print(orders_list)
-
-
-# # print(workers_data)
-
-# wokrers_list = []
-# for i in range(0, len(workers_data)):
-#     tmp =[]
-#     if workers_data[i]["UMIEJETNOSC_1"] != 99:
-#         tmp.append(workers_data[i]["UMIEJETNOSC_1"])
-#     if workers_data[i]["UMIEJETNOSC_2"] != 99:
-#         tmp.append(workers_data[i]["UMIEJETNOSC_2"])
-#     if workers_data[i]["UMIEJETNOSC_3"] != 99:
-#         tmp.append(workers_data[i]["UMIEJETNOSC_3"])
-#     wokrers_list.append(tmp)
+print(ord)
+print("best_C: ", best_C)
+print("best_max_C: ", best_max_C)
 
 
-# # e = order[1]
-# # print(order)
-# # e = 5
-# iteracje = 1
-# for e in order:
-#     if e == 0:
-#         continue
-    
-#     USE_WORKERS = []
-#     ID_WORKERS = []
-#     # print(USE_WORKERS, iteracje, "uw")
-#     # print(ID_WORKERS, iteracje,"id")
-#     for i in GP.Res[e]:
+# print(len(ord))
+# z = [i for i in range(1,len(ord)+1)]
+# print(len(z))
 
-#         for k in range(1,wn + 1):
-#             # print(k)
-#             if i.id in wokrers_list[k - 1]:
 
-#                 if k not in USE_WORKERS:
-#                     ID_WORKERS.append(k)
-#         # print(ID_WORKERS)
+# a = easy_asign(Graph=G, workers=wokrers_list)
 
-#         for l in range(1,i.number+1):
-#             USE_WORKERS.append(ID_WORKERS.pop(0))
-#         # print(USE_WORKERS)
-#     iteracje += 1
-#     # if iteracje == 4:
-#     #     break
-        
+# C0, max_C0 = c_max2(m=len(wokrers_list),
+#  workers=wokrers_list,Graph=G, a=a, pi=ord)
 
-#     # print(ID_WORKERS)
-#     # print(USE_WORKERS)
+ #insertowanie na wszystkie pozycje , liczenie cmax, zmiana i dalej 
 
-#     for m in USE_WORKERS:
-#         permutation[m].append(e)
-# print(permutation)
+# print(max_C0)
+# move_elem(ord,45,43)
+
+# print(IS_TOP(pi=ord, Graph=G))
+
+# a1 = easy_asign(Graph=G, workers=wokrers_list)
+
+# C1, max_C1 = c_max2(m=len(wokrers_list),
+#  workers=wokrers_list,Graph=G, a=a1, pi=ord)
+
+# print(max_C1)
+
+# move_elem(ord,27,34)
+
+# a2 = easy_asign(Graph=G, workers=wokrers_list)
+# # print(a)
+# C2, max_C2 = c_max2(m=len(wokrers_list),
+#  workers=wokrers_list,Graph=G, a=a2, pi=ord)
+# # print(C2)
+# print(max_C2)
