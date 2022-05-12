@@ -4,6 +4,8 @@ import graph
 import algorithm
 import copy
 import random
+# import numpy as np
+import math
 
 def load_orders() -> list:
     orders = parser.PARS_ORDERS()
@@ -272,7 +274,6 @@ def ds(ord, Graph, workers_list):
     best_ord = copy.deepcopy(ord)
     NX = 1000_000
     while True:
-
         best_C, best_max_C, best_ord = insert_nbr(Graph=Graph, workers_list=workers_list, ord=best_ord)
         if best_max_C < NX:
             NX = best_max_C
@@ -283,67 +284,58 @@ def ds(ord, Graph, workers_list):
     return best_C, best_max_C, best_ord
 
 # best_C, best_max_C, best_ord=ds(ord=ord, Graph=G, workers_list=wokrers_list)
-best_ord = copy.deepcopy(ord)
-NX = 1000_000
-for i in range(1000):
-    best_C, best_max_C, best_ord = insert_rand(Graph=G, workers_list=wokrers_list, ord=best_ord)
-    if best_max_C < NX:
-        NX = best_max_C
-        print("best_max_C: ", best_max_C)
+def random_serge(ord, Graph, workers_list):
+    best_ord = copy.deepcopy(ord)
+    NX = 1000_000
+    for i in range(1000):
+        best_C, best_max_C, best_ord = insert_rand(Graph=Graph, workers_list=workers_list, ord=best_ord)
+        if best_max_C < NX:
+            NX = best_max_C
+            print("best_max_C: ", best_max_C)
+    return best_C, best_max_C, best_ord
 
 
-#to co mam zapisać jako rand
-#symulowane wyzazanie na podstawie tego co wyzej
+def symulowane_wyzazanie(ord,Graph,workers_list):
+    t0 = 10000
+    tk = 0.1
+    lam = 0.95
+    t = t0
+    n=Graph.n
+    m = len(workers_list)
+    a0 = easy_asign(Graph=Graph, workers=workers_list)
 
+    C0_best, Cmax_best = c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=ord)
 
+    ord_best = []
+    ord_best = copy.deepcopy(ord)
+    while t > tk:
+        l1 = random.randint(1,n)
+        l2 = random.randint(1,n)
+        C_tmp0, max_tmp0 = c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=ord)
+        move_elem(l=ord, oldindex=l1, newindex=l2)
+        if IS_TOP(pi=ord,Graph=Graph) == False:
+            move_elem(l=ord,oldindex=l2,newindex=l1)
+            continue
+        else:
+            C_tmp, max_tmp= c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=ord)
+            if max_tmp < Cmax_best:
+                Cmax_best = max_tmp
+                print("pom: ",Cmax_best)
+                ord_best = copy.deepcopy(ord)
+            if max_tmp > max_tmp0:
+                delta = max_tmp-max_tmp0
+                P = math.exp(-delta/t)
+                Z = random.random()
+                if Z <= P:
+                    i = 0
+                else:
+                    move_elem(l=ord, oldindex=l2, newindex=l1)
+                
+        t = lam*t
 
+    pi = copy.deepcopy(ord_best)
+    print("end")
+    return pi, Cmax_best
 
-
-
-# best_C, best_max_C, best_ord = optimze_c_max(Graph=G, workers_list=wokrers_list, ord=ord)
-
-# print(best_ord)
-# best_C, best_max_C, best_ord = optimze_c_max(Graph=G, workers_list=wokrers_list, ord=best_ord)
-
-# print(best_ord)
-# est_C, best_max_C, best_ord = optimze_c_max(Graph=G, workers_list=wokrers_list, ord=best_ord)
-
-# print(best_ord)
-
-
-# # print("best_C: ", best_C)
-# print("best_max_C: ", best_max_C)
-
-
-# print(len(ord))
-# z = [i for i in range(1,len(ord)+1)]
-# print(len(z))
-
-
-# a = easy_asign(Graph=G, workers=wokrers_list)
-
-# C0, max_C0 = c_max2(m=len(wokrers_list),
-#  workers=wokrers_list,Graph=G, a=a, pi=ord)
-
- #insertowanie na wszystkie pozycje , liczenie cmax, zmiana i dalej 
-
-# print(max_C0)
-# move_elem(ord,45,43)
-
-# print(IS_TOP(pi=ord, Graph=G))
-
-# a1 = easy_asign(Graph=G, workers=wokrers_list)
-
-# C1, max_C1 = c_max2(m=len(wokrers_list),
-#  workers=wokrers_list,Graph=G, a=a1, pi=ord)
-
-# print(max_C1)
-
-# move_elem(ord,27,34)
-
-# a2 = easy_asign(Graph=G, workers=wokrers_list)
-# # print(a)
-# C2, max_C2 = c_max2(m=len(wokrers_list),
-#  workers=wokrers_list,Graph=G, a=a2, pi=ord)
-# # print(C2)
-# print(max_C2)
+best_ord, best_Cmax = symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
+print(best_Cmax)
