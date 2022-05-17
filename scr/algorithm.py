@@ -62,6 +62,9 @@ def easy_asign(workers, Graph):
                     if k not in USE_WORKERS:
                             ID_WORKERS.append(k)
             for l in range(1, r_number + 1):
+                # print(ID_WORKERS)
+                if len(ID_WORKERS) == 0:
+                    break
                 USE_WORKERS.append(ID_WORKERS.pop(0))
                 FUNCTION_ID.append(r_id)
         a.append({"USE_WORKERS":USE_WORKERS,

@@ -3,12 +3,13 @@ import parser
 import badania
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-NB = [1, 2, 3, 4, 5, 6, 7, 8]
+NB = [6, 7, 8]
 
 run = RUNS[:8]
 
 sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
 # nb = 3
+# NB = [4]
 debug = True
 
 def przeprowadz_badania(NB, run, sequence, debug):
@@ -36,7 +37,21 @@ def przeprowadz_badania(NB, run, sequence, debug):
 
 przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
 
-# C_best_ds, best_Cmax_ds, best_ord_ds = algorithm.ds(ord=ord,Graph=G,workers_list=wokrers_list)
+
+# workers_data = parser.PARS_WORKERS()
+# wokrers_list = parser.preper_woreks(workers_data=workers_data)
+# # G_list = preproces_data.get_job()
+# G_list = preproces_data.generate_full_graph_list()
+
+# G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[0]) 
+
+
+# ord = G.TOP_ORDER()
+# badania.badania_sw(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=NB[0])
+
+
+# C_best_ds, b
+# est_Cmax_ds, best_ord_ds = algorithm.ds(ord=ord,Graph=G,workers_list=wokrers_list)
 # print("ds: ", best_Cmax_ds)
 
 # C_best_rnd, best_Cmax_rnd, best_ord_rnd = algorithm.random_serge(ord=ord,Graph=G,workers_list=wokrers_list)
