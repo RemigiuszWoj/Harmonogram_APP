@@ -1,9 +1,10 @@
 import preproces_data
 import parser
 import badania
+import algorithm
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-NB = [6, 7, 8]
+NB = [1, 2, 3, 4, 5, 6, 7, 8]
 
 run = RUNS[:8]
 
@@ -35,18 +36,32 @@ def przeprowadz_badania(NB, run, sequence, debug):
                 print("nd: " + str(nb))
 
 
-przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
+# przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
 
 
-# workers_data = parser.PARS_WORKERS()
-# wokrers_list = parser.preper_woreks(workers_data=workers_data)
-# # G_list = preproces_data.get_job()
-# G_list = preproces_data.generate_full_graph_list()
+workers_data = parser.PARS_WORKERS()
+wokrers_list = parser.preper_woreks(workers_data=workers_data)
 
-# G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[0]) 
+G_list = preproces_data.generate_full_graph_list()
+
+G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[1]) 
 
 
-# ord = G.TOP_ORDER()
+
+
+ord = G.TOP_ORDER()
+print(ord)
+
+C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
+print("wyzazanie: ", best_Cmax_sw)
+print("wyzazanie: ", C_best_sw)
+print("wyzazanie: ", best_ord_sw)
+
+# przykład z harmonogramen  
+#  harmonogra narysowac + tabele  
+
+
+# G_list = preproces_data.get_job()
 # badania.badania_sw(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=NB[0])
 
 
@@ -56,22 +71,3 @@ przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
 
 # C_best_rnd, best_Cmax_rnd, best_ord_rnd = algorithm.random_serge(ord=ord,Graph=G,workers_list=wokrers_list)
 # print("random: ", best_Cmax_rnd)
-
-# C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
-# print("wyzazanie: ", best_Cmax_sw)
-
-
-#  to do
-#  czas obiczen 
-#  3 - 8 suszarni
-#  3 algorytmy
-#  5-10 wykonan  
-#  p logi  
-
-#  bld pomiedzy najlepszym a algorytmen  po wzgledem maszyn  
-#  jak poprawic wyniki 
-# przykład z harmonogramen  
-#  harmonogra narysowac + tabele  
-# dodać kod do zasobów  
-#  wykazac symulowane wyzazane jest wystarczajaco dobre  dosc dobr rozw w leszym czasie 
-#

@@ -1,0 +1,9 @@
+ds;
+Minimum;91;2,0363
+Średnia;91;2,0449
+rnd;
+Minimum;86;6,9593;
+Średnia;87,75;7,0482;
+sw;
+Minimum;81;0,5207
+Średnia;83;0,5544

@@ -1,0 +1,9 @@
+ds
+Minimum;144;16,7625
+Średnia;144;16,8065
+rnd
+Minimum;150;27,8981
+Średnia;159;28,1968
+best_Cmax_sw
+Minimum;145;1,0418
+Średnia;149,86;1,0476
