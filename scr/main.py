@@ -2,6 +2,7 @@ import preproces_data
 import parser
 import badania
 import algorithm
+import matplotlib.pyplot as plt
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 NB = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -50,12 +51,33 @@ G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[1])
 
 
 ord = G.TOP_ORDER()
-print(ord)
+# print(ord)
 
-C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
-print("wyzazanie: ", best_Cmax_sw)
-print("wyzazanie: ", C_best_sw)
-print("wyzazanie: ", best_ord_sw)
+# C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
+# print("wyzazanie: ", best_Cmax_sw)
+# print("wyzazanie: ", C_best_sw)
+# print("wyzazanie: ", best_ord_sw)
+# H1 = G.Harm(ord)
+C,cmax,perm = algorithm.ds(ord=ord,Graph=G,workers_list=wokrers_list)
+H2 = G.Harm(ord)
+# print(H1)
+# print(H2)
+
+C1 = []
+C2 = []
+for i in range(1,len(G.job)):
+    if G.job[i] == 1:
+        C1.append(C[i])
+    elif G.job[i] == 2:
+        C2.append(C[i])
+
+print(C1, len(C1))
+print(C2, len(C2))
+print(perm)
+for i in range(0, len(C1)):
+    plt.plot([C1[i],C2[i]], [i,i], linewidth=10.0, linestyle="-")
+    plt.text(C1[i],i,i)
+plt.show()
 
 # przykład z harmonogramen  
 #  harmonogra narysowac + tabele  

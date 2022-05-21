@@ -4,12 +4,12 @@ import data_csv
 
 TRANSLATE_TABLE = {"K" : 1, "E" : 2, "U" : 3, "W" : 4, "S": 5, "C": 6, "-" : 99 }
 
-MODEL_TABLE = {"dryer_20_t":"dryer_20_t.csv", "dryer_35_t":"dryer_35_t.csv", "dryer_50_t":"dryer_50_t.csv"}
+MODEL_TABLE = {"dryer_20_t":r"C:\Users\alage\OneDrive\Dokumenty\Harmonogram_APP\scr\dryer_20_t.csv", "dryer_35_t":r"C:\Users\alage\OneDrive\Dokumenty\Harmonogram_APP\scr\dryer_35_t.csv", "dryer_50_t":r"C:\Users\alage\OneDrive\Dokumenty\Harmonogram_APP\scr\dryer_50_t.csv"}
 
 def chat_to_int(umiejetnosc:str) -> int:
     return TRANSLATE_TABLE[umiejetnosc]
 
-def PARSOWANIE_DANYCH(path:str ="dryer_50_t.csv", nr_job = 0):
+def PARSOWANIE_DANYCH(path:str =r"C:\Users\alage\OneDrive\Dokumenty\Harmonogram_APP\scr\dryer_50_t.csv", nr_job = 0):
     
     file = data_csv.preprocesData(path=path)
     file.preper_file()
@@ -59,7 +59,7 @@ def type_to_csv(model:str) -> int:
 
 
 
-def PARS_WORKERS(path:str ="workers.csv"):
+def PARS_WORKERS(path:str =r"C:\Users\alage\OneDrive\Dokumenty\Harmonogram_APP\scr\workers.csv"):
     file = data_csv.preprocesData(path=path)
     file.preper_file()
     data_set = file.file_to_dict
@@ -80,7 +80,7 @@ def PARS_WORKERS(path:str ="workers.csv"):
 
 # PARS_WORKERS()
 
-def PARS_ORDERS(path:str ="orders.csv"):
+def PARS_ORDERS(path:str =r"C:\Users\alage\OneDrive\Dokumenty\Harmonogram_APP\scr\orders.csv"):
     file = data_csv.preprocesData(path=path)
     file.preper_file()
     data_set = file.file_to_dict
