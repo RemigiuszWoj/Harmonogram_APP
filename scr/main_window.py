@@ -1,8 +1,14 @@
 import tkinter
 import csv
 import preproces_data
+import main
 
 ADD_DRYER = "dryer_20_t"
+SYMBOL_LIST= ["C","E","K","U","S","W","-"]
+NB = [1, 2, 3, 4, 5, 6, 7, 8]
+sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
+dyer_number = 1
+
 
 def add_20_t():
     ADD_DRYER = "dryer_20_t"
@@ -40,19 +46,86 @@ def dodaj_element_zamowienia():
     print("Dodano")
 
 def usun_element_hrmonogram():
+    fd=open("orders.csv","r")
+    d=fd.read()
+    fd.close()
+    m=d.split("\n")
+    s="\n".join(m[:-1])
+    fd=open("orders.csv","w+")
+    for i in range(len(s)):
+        fd.write(s[i])
+    fd.close()
+    wyswietl_zamowienia()
     print("usunieto")
 
 def wyswietl_pracownicy():
+    output.delete(0.0,tkinter.END)
+    with open("workers.csv", "r") as f:
+        data = f.read()
+        output.insert("1.0", data)
     print("Wyswietlono")
 
 def dodaj_pracownicy():
+    workers = preproces_data.load_orders()
+    last_LP = workers[-1]["LP"]
+
+    if  pole_imie.get() != "":
+        workers_name = pole_imie.get()
+    else:
+        workers_name = "Blad"
+
+    if  pole_nazwisko.get() != "":
+        workers_last_name = pole_nazwisko.get()
+    else:
+        workers_last_name = "Blad"
+
+    if  pole_U1.get() in SYMBOL_LIST:
+        utility_U1 = pole_U1.get()
+    else:
+        utility_U1 = "-"
+
+    if  pole_U2.get() in SYMBOL_LIST:
+        utility_U2 = pole_U2.get()
+    else:
+        utility_U2 = "-"
+
+    if  pole_U3.get() in SYMBOL_LIST:
+        utility_U3 = pole_U3.get()
+    else:
+        utility_U3 = "-"
+
+    worker = f"{last_LP + 1};{workers_name};{workers_last_name};{utility_U1};{utility_U2};{utility_U3};"
+    print (worker)
+    with open("workers.csv", 'a') as f:
+        f.write("\n")
+        f.write(worker)
+    wyswietl_pracownicy()
     print("dodano")
 
 def usun_pracownicy():
+    fd=open("workers.csv","r")
+    d=fd.read()
+    fd.close()
+    m=d.split("\n")
+    s="\n".join(m[:-1])
+    fd=open("workers.csv","w+")
+    for i in range(len(s)):
+        fd.write(s[i])
+    fd.close()
+    wyswietl_pracownicy()
     print("usunieto")
 
 def harmonogramuj_harmonogram():
-    print("Harmonagramuja")
+    C_best_sw, best_Cmax_sw, best_ord_sw = main.make_harmonogram(sequence=sequence, NB=NB,dyer_number=dyer_number)
+    print("wyzazanie: ", best_Cmax_sw)
+    print("wyzazanie: ", C_best_sw)
+    print("wyzazanie: ", best_ord_sw)
+
+    data = f"best_Cmax_sw: {best_Cmax_sw}\n C_best_sw: {C_best_sw}\n best_ord_sw: {best_ord_sw}"
+
+    output.delete(0.0,tkinter.END)
+    output.insert("1.0", data)
+    print("Harmonagramuje")
 
 def wyswietl_harmonogram():
     print("Wyswietlam")
@@ -168,4 +241,3 @@ output = tkinter.Text(ramka_komunikacji,width = 56, height = 10,wrap = tkinter.W
 output.grid(row = 1, column = 1, columnspan = 7, pady=10, padx = 5)
 
 window.mainloop()
-

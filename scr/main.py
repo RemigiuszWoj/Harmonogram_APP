@@ -37,22 +37,24 @@ def przeprowadz_badania(NB, run, sequence, debug):
 
 
 # przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
+def make_harmonogram(sequence, NB, dyer_number=1):
+
+    workers_data = parser.PARS_WORKERS()
+    wokrers_list = parser.preper_woreks(workers_data=workers_data)
+
+    G_list = preproces_data.generate_full_graph_list()
+
+    G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[dyer_number]) 
+
+    ord = G.TOP_ORDER()
+    # print(ord)
+
+    C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
+    return  C_best_sw, best_Cmax_sw, best_ord_sw
 
 
-workers_data = parser.PARS_WORKERS()
-wokrers_list = parser.preper_woreks(workers_data=workers_data)
+C_best_sw, best_Cmax_sw, best_ord_sw = make_harmonogram(sequence=sequence, NB=NB, dyer_number=1)
 
-G_list = preproces_data.generate_full_graph_list()
-
-G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[1]) 
-
-
-
-
-ord = G.TOP_ORDER()
-print(ord)
-
-C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
 print("wyzazanie: ", best_Cmax_sw)
 print("wyzazanie: ", C_best_sw)
 print("wyzazanie: ", best_ord_sw)
