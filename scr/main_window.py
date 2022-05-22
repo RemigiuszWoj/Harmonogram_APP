@@ -116,19 +116,26 @@ def usun_pracownicy():
     print("usunieto")
 
 def harmonogramuj_harmonogram():
-    C_best_sw, best_Cmax_sw, best_ord_sw = main.make_harmonogram(sequence=sequence, NB=NB,dyer_number=dyer_number)
+    C_best_sw, best_Cmax_sw, best_ord_sw, G = main.make_harmonogram(sequence=sequence, NB=NB,dyer_number=dyer_number)
     print("wyzazanie: ", best_Cmax_sw)
     print("wyzazanie: ", C_best_sw)
     print("wyzazanie: ", best_ord_sw)
+    wypisz_harmonogram(best_Cmax_sw=best_Cmax_sw, C_best_sw=C_best_sw, best_ord_sw=best_ord_sw)
+    print("Harmonagramuje")
+    return C_best_sw, best_Cmax_sw, best_ord_sw, G
 
+def wyswietl_harmonogram():
+    C_best_sw, best_Cmax_sw, best_ord_sw, Graph = harmonogramuj_harmonogram()
+    main.print_harmonogram(G=Graph, C=C_best_sw)
+
+    print("Wyswietlam")
+
+def wypisz_harmonogram(best_Cmax_sw, C_best_sw, best_ord_sw):
     data = f"best_Cmax_sw: {best_Cmax_sw}\n C_best_sw: {C_best_sw}\n best_ord_sw: {best_ord_sw}"
 
     output.delete(0.0,tkinter.END)
     output.insert("1.0", data)
-    print("Harmonagramuje")
 
-def wyswietl_harmonogram():
-    print("Wyswietlam")
 
 #Okinko
 window =tkinter.Tk()

@@ -2,6 +2,7 @@ import preproces_data
 import parser
 import badania
 import algorithm
+import matplotlib.pyplot as plt
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 NB = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -9,8 +10,8 @@ NB = [1, 2, 3, 4, 5, 6, 7, 8]
 run = RUNS[:8]
 
 sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
-# nb = 3
-# NB = [4]
+
+dyer_number = 1
 debug = True
 
 def przeprowadz_badania(NB, run, sequence, debug):
@@ -36,7 +37,7 @@ def przeprowadz_badania(NB, run, sequence, debug):
                 print("nd: " + str(nb))
 
 
-# przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
+
 def make_harmonogram(sequence, NB, dyer_number=1):
 
     workers_data = parser.PARS_WORKERS()
@@ -50,14 +51,34 @@ def make_harmonogram(sequence, NB, dyer_number=1):
     # print(ord)
 
     C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
-    return  C_best_sw, best_Cmax_sw, best_ord_sw
+    return  C_best_sw, best_Cmax_sw, best_ord_sw, G
+
+def print_harmonogram(G,C):
+
+    C1 = []
+    C2 = []
+    for i in range(1,len(G.job)):
+        if G.job[i] == 1:
+            C1.append(C[i])
+        elif G.job[i] == 2:
+            C2.append(C[i])
+
+    for i in range(0, len(C1)):
+        plt.plot([C1[i],C2[i]], [i,i], linewidth=5.0, linestyle="-")
+        plt.text(C1[i],i,i)
+    plt.show()
+
+# przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
+
+# C_best_sw, best_Cmax_sw, best_ord_sw, Graph= make_harmonogram(sequence=sequence, NB=NB, dyer_number=1)
+
+# print("wyzazanie: ", best_Cmax_sw)
+# print("wyzazanie: ", C_best_sw)
+# print("wyzazanie: ", best_ord_sw)
+
+# print_harmonogram(G=Graph, C=C_best_sw)
 
 
-C_best_sw, best_Cmax_sw, best_ord_sw = make_harmonogram(sequence=sequence, NB=NB, dyer_number=1)
-
-print("wyzazanie: ", best_Cmax_sw)
-print("wyzazanie: ", C_best_sw)
-print("wyzazanie: ", best_ord_sw)
 
 # przykład z harmonogramen  
 #  harmonogra narysowac + tabele  
@@ -73,3 +94,4 @@ print("wyzazanie: ", best_ord_sw)
 
 # C_best_rnd, best_Cmax_rnd, best_ord_rnd = algorithm.random_serge(ord=ord,Graph=G,workers_list=wokrers_list)
 # print("random: ", best_Cmax_rnd)
+
