@@ -7,7 +7,7 @@ ADD_DRYER = "dryer_20_t"
 SYMBOL_LIST= ["C","E","K","U","S","W","-"]
 NB = [1, 2, 3, 4, 5, 6, 7, 8]
 sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
-dyer_number = 1
+dyer_number = 2
 
 
 def add_20_t():
@@ -125,8 +125,8 @@ def harmonogramuj_harmonogram():
     return C_best_sw, best_Cmax_sw, best_ord_sw, G
 
 def wyswietl_harmonogram():
-    C_best_sw, best_Cmax_sw, best_ord_sw, Graph = harmonogramuj_harmonogram()
-    main.print_harmonogram(G=Graph, C=C_best_sw)
+
+    main.print_harmonogram(sequence=sequence, NB=NB, dyer_number=dyer_number, COLORS=main.COLORS)
 
     print("Wyswietlam")
 

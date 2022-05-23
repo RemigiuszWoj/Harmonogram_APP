@@ -90,7 +90,8 @@ def c_max(m, workers, Graph, a, pi):
 
 def c_max2(m, workers, Graph, a, pi):
     Z = [ 0 for _ in range(m + 1)]
-    C = [ 0 for _ in range(Graph.n + 1)]
+    C = [ 0 for _ in range(Graph.n + 1)] #momenty zakonczenia
+    # rozpoczecie C -graph.p
     for i in range(1,Graph.n +1):
         op = pi[i]
         z = 0
@@ -135,7 +136,7 @@ def IS_TOP(pi, Graph):
         for a in Graph.Succ[nd]:
             if ps[nd] > ps[a.nd]:
                 return False
-        return True
+    return True
 
 def insert_nbr(Graph, workers_list, ord):
     best_C, best_max_C = 0, 0
@@ -147,6 +148,7 @@ def insert_nbr(Graph, workers_list, ord):
     best_C = C0
     best_max_C = max_C0
     best_ord = copy.deepcopy(ord)
+    # print(best_ord)
 
     for i in range(1,len(ord)):
         for j in range(i+1,len(ord)):
@@ -262,14 +264,14 @@ def ds(ord, Graph, workers_list):
 def random_serge(ord, Graph, workers_list):
     best_ord = copy.deepcopy(ord)
     NX = 1000_000
-    for i in range(1000):
+    for i in range(10000):
         best_C, best_max_C, best_ord = insert_rand(Graph=Graph, workers_list=workers_list, ord=best_ord)
         if best_max_C < NX:
             NX = best_max_C
             # print("best_max_C: ", best_max_C)
     return best_C, best_max_C, best_ord
 
-def symulowane_wyzazanie(ord,Graph,workers_list):
+def symulowane_wyzazanie(pi,Graph,workers_list):
     t0 = 1000
     tk = 0.1
     lam = 0.995
@@ -278,25 +280,25 @@ def symulowane_wyzazanie(ord,Graph,workers_list):
     m = len(workers_list)
     a0 = easy_asign(Graph=Graph, workers=workers_list)
 
-    C0_best, Cmax_best = c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=ord)
+    C0_best, Cmax_best = c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=pi)
 
-    ord_best = []
-    ord_best = copy.deepcopy(ord)
+    best_pi = []
+    best_pi = copy.deepcopy(pi)
     while t > tk:
         l1 = random.randint(1,n)
         l2 = random.randint(1,n)
-        C_tmp0, max_tmp0 = c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=ord)
-        move_elem(l=ord, oldindex=l1, newindex=l2)
-        if IS_TOP(pi=ord,Graph=Graph) == False:
-            move_elem(l=ord,oldindex=l2,newindex=l1)
+        C_tmp0, max_tmp0 = c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=pi)
+        move_elem(l=pi, oldindex=l1, newindex=l2)
+        if IS_TOP(pi=pi,Graph=Graph) == False:
+            move_elem(l=pi,oldindex=l2,newindex=l1)
             continue
         else:
-            C_tmp, max_tmp= c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=ord)
+            C_tmp, max_tmp= c_max2(m=m, workers=workers_list, Graph=Graph, a=a0, pi=pi)
             if max_tmp < Cmax_best:
                 C0_best = C_tmp
                 Cmax_best = max_tmp
                 # print("pom: ",Cmax_best)
-                ord_best = copy.deepcopy(ord)
+                best_pi = copy.deepcopy(pi)
             if max_tmp > max_tmp0:
                 delta = max_tmp-max_tmp0
                 P = math.exp(-delta/t)
@@ -304,8 +306,8 @@ def symulowane_wyzazanie(ord,Graph,workers_list):
                 if Z <= P:
                     i = 0
                 else:
-                    move_elem(l=ord, oldindex=l2, newindex=l1)
+                    move_elem(l=pi, oldindex=l2, newindex=l1)
         t = lam*t
-    best_order = copy.deepcopy(ord_best)
+    best_order = copy.deepcopy(best_pi)
     # print("end")
-    return C0_best, Cmax_best, best_order
+    return C0_best, Cmax_best, best_order, Graph

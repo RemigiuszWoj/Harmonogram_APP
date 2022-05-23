@@ -1,3 +1,4 @@
+
 import preproces_data
 import parser
 import badania
@@ -6,8 +7,9 @@ import matplotlib.pyplot as plt
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 NB = [1, 2, 3, 4, 5, 6, 7, 8]
+COLORS = ["red", "green", "blue", "orange", "green", "black", "pink", "grey", "yellow", "brown"]
 
-run = RUNS[:8]
+run = RUNS[:4]
 
 sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -27,8 +29,20 @@ def przeprowadz_badania(NB, run, sequence, debug):
         ord = G.TOP_ORDER()
         badania.badania_ds(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
 
+        workers_data = parser.PARS_WORKERS()
+        wokrers_list = parser.preper_woreks(workers_data=workers_data)
+        # G_list = preproces_data.get_job()
+        G_list = preproces_data.generate_full_graph_list()
+        G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
+
         ord = G.TOP_ORDER()
         badania.badania_rnd(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
+
+        workers_data = parser.PARS_WORKERS()
+        wokrers_list = parser.preper_woreks(workers_data=workers_data)
+        # G_list = preproces_data.get_job()
+        G_list = preproces_data.generate_full_graph_list()
+        G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
 
         ord = G.TOP_ORDER()
         badania.badania_sw(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
@@ -38,7 +52,7 @@ def przeprowadz_badania(NB, run, sequence, debug):
 
 
 
-def make_harmonogram(sequence, NB, dyer_number=1):
+def make_harmonogram(sequence, NB, dyer_number):
 
     workers_data = parser.PARS_WORKERS()
     wokrers_list = parser.preper_woreks(workers_data=workers_data)
@@ -47,41 +61,64 @@ def make_harmonogram(sequence, NB, dyer_number=1):
 
     G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=NB[dyer_number]) 
 
+    print(G.job)
+
     ord = G.TOP_ORDER()
     # print(ord)
+    # C_best_sw, best_Cmax_sw, best_ord_sw ,G = algorithm.symulowane_wyzazanie(pi=ord,Graph=G,workers_list=wokrers_list)
+    C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.ds(ord=ord,Graph=G,workers_list=wokrers_list)
 
-    C_best_sw, best_Cmax_sw, best_ord_sw = algorithm.symulowane_wyzazanie(ord=ord,Graph=G,workers_list=wokrers_list)
     return  C_best_sw, best_Cmax_sw, best_ord_sw, G
 
-def print_harmonogram(G,C):
+def print_harmonogram(sequence, NB, dyer_number, COLORS):
 
-    C1 = []
-    C2 = []
-    for i in range(1,len(G.job)):
-        if G.job[i] == 1:
-            C1.append(C[i])
-        elif G.job[i] == 2:
-            C2.append(C[i])
+    workers_data = parser.PARS_WORKERS()
+    wokrers_list = parser.preper_woreks(workers_data=workers_data)
 
-    for i in range(0, len(C1)):
-        plt.plot([C1[i],C2[i]], [i,i], linewidth=5.0, linestyle="-")
-        plt.text(C1[i],i,i)
+    C_best_sw, best_Cmax_sw, best_ord_sw, Graph= make_harmonogram(sequence=sequence, NB=NB, dyer_number=dyer_number)
+
+
+    m=len(wokrers_list)
+    a0 = algorithm.easy_asign(Graph=Graph, workers=wokrers_list)
+    C0_best, Cmax_best =  algorithm.c_max2(m=m, workers=wokrers_list, Graph=Graph, a=a0, pi=best_ord_sw)
+  
+    Zakonczenia = C0_best
+    Czas_trwania = Graph.p
+    Rozpoczecie =[ Zakonczenia[i] - Czas_trwania[i] for i in range(len(Zakonczenia))]
+
+    print("Kolejnosc: ", best_ord_sw)
+    print("Rozpoczecie: ",Rozpoczecie)
+    print("Czas_trwania: ",Czas_trwania)
+    print("Zakonczenia ",Zakonczenia)
+    
+    Pracownicy = [a0[i]["USE_WORKERS"] for i in range(1,len(a0))]
+    Pracownicy.insert(0,[])
+    print("Prazownicy: ",Pracownicy)
+    
+    fig, ax = plt.subplots() 
+
+    for i in range(1,len(Rozpoczecie)-1):
+        for j in Pracownicy[i]:
+            ax.hlines(j,Rozpoczecie[i],Zakonczenia[i], colors=COLORS[Graph.job[i]])
+    ax.set_title("Harmonogram Czasu Pracy")
+    ax.set_ylabel("Pracownik")
+    ax.set_xlabel("Czas [h]")
     plt.show()
 
-# przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
 
-# C_best_sw, best_Cmax_sw, best_ord_sw, Graph= make_harmonogram(sequence=sequence, NB=NB, dyer_number=1)
+# C_best_sw, best_Cmax_sw, best_ord_sw, Graph= make_harmonogram(sequence=sequence, NB=NB, dyer_number=dyer_number)
+
+
+przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
+
+
+
 
 # print("wyzazanie: ", best_Cmax_sw)
 # print("wyzazanie: ", C_best_sw)
 # print("wyzazanie: ", best_ord_sw)
 
 # print_harmonogram(G=Graph, C=C_best_sw)
-
-
-
-# przykład z harmonogramen  
-#  harmonogra narysowac + tabele  
 
 
 # G_list = preproces_data.get_job()
