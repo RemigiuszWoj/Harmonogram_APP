@@ -6,10 +6,11 @@ import algorithm
 import matplotlib.pyplot as plt
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-NB = [1, 2, 3, 4, 5, 6, 7, 8]
+# NB = [1, 2, 3, 4, 5, 6, 7, 8]
+NB = [1,2]
 COLORS = ["red", "green", "blue", "orange", "green", "black", "pink", "grey", "yellow", "brown"]
 
-run = RUNS[:4]
+run = RUNS[:3]
 
 sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -20,14 +21,14 @@ def przeprowadz_badania(NB, run, sequence, debug):
 
     for nb in NB:
 
-        workers_data = parser.PARS_WORKERS()
-        wokrers_list = parser.preper_woreks(workers_data=workers_data)
-        # G_list = preproces_data.get_job()
-        G_list = preproces_data.generate_full_graph_list()
-        G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
+        # workers_data = parser.PARS_WORKERS()
+        # wokrers_list = parser.preper_woreks(workers_data=workers_data)
+        # # G_list = preproces_data.get_job()
+        # G_list = preproces_data.generate_full_graph_list()
+        # G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
         
-        ord = G.TOP_ORDER()
-        badania.badania_ds(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
+        # ord = G.TOP_ORDER()
+        # badania.badania_ds(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
 
         workers_data = parser.PARS_WORKERS()
         wokrers_list = parser.preper_woreks(workers_data=workers_data)
@@ -36,16 +37,29 @@ def przeprowadz_badania(NB, run, sequence, debug):
         G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
 
         ord = G.TOP_ORDER()
+        # print(ord)
+        # print(algorithm.IS_TOP(ord,G))
+
+        # i =14
+        # j = 15
+        # algorithm.move_elem(l=ord,oldindex=i,newindex=j)
+        # print(ord)
+        # print(algorithm.IS_TOP(ord,G))
+        # algorithm.move_elem(l=ord,oldindex=28,newindex=1)
+        # print(ord)
+        # print(algorithm.IS_TOP(ord,G))
+        
+
         badania.badania_rnd(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
 
-        workers_data = parser.PARS_WORKERS()
-        wokrers_list = parser.preper_woreks(workers_data=workers_data)
-        # G_list = preproces_data.get_job()
-        G_list = preproces_data.generate_full_graph_list()
-        G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
+        # workers_data = parser.PARS_WORKERS()
+        # wokrers_list = parser.preper_woreks(workers_data=workers_data)
+        # # G_list = preproces_data.get_job()
+        # G_list = preproces_data.generate_full_graph_list()
+        # G = preproces_data.create_G(G_list=G_list, sequence=sequence, nb=nb) 
 
-        ord = G.TOP_ORDER()
-        badania.badania_sw(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
+        # ord = G.TOP_ORDER()
+        # badania.badania_sw(ord=ord, Graph=G, workers_list=wokrers_list, run=run, debug=debug, nb=nb)
 
         if debug == True:
                 print("nd: " + str(nb))

@@ -130,8 +130,9 @@ def move_elem(l, oldindex, newindex):
 
 def IS_TOP(pi, Graph):
     ps = [0 for _ in range(Graph.n + 1)]
-    for i in range(1, Graph.n):
+    for i in range(1, Graph.n + 1):
         ps[pi[i]] = i
+    # print("ps: ",ps)
     for nd in range(1, Graph.n + 1):
         for a in Graph.Succ[nd]:
             if ps[nd] > ps[a.nd]:
@@ -207,11 +208,14 @@ def insert_rand(Graph, workers_list, ord):
     # print(i)
     # print(len(ord))
     for j in range(i+1,len(ord)):
+        # print("i: ",i,"j: ",j)
         move_elem(l=ord,oldindex=i,newindex=j)
         if IS_TOP(pi=ord,Graph=Graph) == False:
             move_elem(l=ord,oldindex=j,newindex=i)
+            # print("1")
             break
         else:
+            # print("TRUE")
             a1 = 0
             C1, max_C1 = 0, 0
 
@@ -230,6 +234,7 @@ def insert_rand(Graph, workers_list, ord):
         move_elem(l=ord,oldindex=i,newindex=j)
         if IS_TOP(pi=ord,Graph=Graph) == False:
             move_elem(l=ord,oldindex=j,newindex=i)
+            # print("2")
             break
         else:
             a1 = 0
@@ -266,6 +271,8 @@ def random_serge(ord, Graph, workers_list):
     NX = 1000_000
     for i in range(10000):
         best_C, best_max_C, best_ord = insert_rand(Graph=Graph, workers_list=workers_list, ord=best_ord)
+        # print("i: ",i)
+        # print("best_max_C: ",best_max_C)
         if best_max_C < NX:
             NX = best_max_C
             # print("best_max_C: ", best_max_C)
@@ -274,7 +281,7 @@ def random_serge(ord, Graph, workers_list):
 def symulowane_wyzazanie(pi,Graph,workers_list):
     t0 = 1000
     tk = 0.1
-    lam = 0.995
+    lam = 0.95
     t = t0
     n=Graph.n
     m = len(workers_list)
