@@ -203,6 +203,8 @@ def insert_rand(Graph, workers_list, ord):
 
     best_C = C0
     best_max_C = 1000_000
+    best_max_C = max_C0
+
     best_ord = copy.deepcopy(ord)
     i = random.randint(1,len(ord)-1)
     # print(i)
@@ -269,7 +271,7 @@ def ds(ord, Graph, workers_list):
 def random_serge(ord, Graph, workers_list):
     best_ord = copy.deepcopy(ord)
     NX = 1000_000
-    for i in range(10000):
+    for i in range(1000):
         best_C, best_max_C, best_ord = insert_rand(Graph=Graph, workers_list=workers_list, ord=best_ord)
         # print("i: ",i)
         # print("best_max_C: ",best_max_C)
@@ -281,7 +283,7 @@ def random_serge(ord, Graph, workers_list):
 def symulowane_wyzazanie(pi,Graph,workers_list):
     t0 = 1000
     tk = 0.1
-    lam = 0.95
+    lam = 0.995
     t = t0
     n=Graph.n
     m = len(workers_list)
