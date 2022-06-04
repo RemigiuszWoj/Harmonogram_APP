@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 RUNS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 NB = [1, 2, 3, 4, 5, 6, 7, 8]
-# NB = [1]
+NB = [2]
 COLORS = ["red", "green", "blue", "orange", "green", "black", "pink", "grey", "yellow", "brown"]
 
 run = RUNS[:3]
@@ -75,7 +75,7 @@ def make_harmonogram(sequence, NB, dyer_number):
 
     return  C_best_sw, best_Cmax_sw, best_ord_sw, G
 
-def save_to_table(Kolejnosc,Rozpoczecie,Zakonczenie,Czas_trwania,Pracownicy,path="harmonogra_tabela.csv"):
+def save_to_table(Kolejnosc,Rozpoczecie,Zakonczenie,Czas_trwania,Graph,Pracownicy,path="harmonogra_tabela.csv"):
     my_data_file = open(path, "+w")
     my_data_file.write("LP;Operacja;Rozpocecie;Zakonczenie,Pracownicy;" + "\n")
     for i in range(1,len(Kolejnosc)):
@@ -110,11 +110,13 @@ def print_harmonogram(sequence, NB, dyer_number, COLORS):
     # print("Prazownicy: ",Pracownicy)
 
     if save: 
-        save_to_table(best_ord_sw,Rozpoczecie,Zakonczenia,Czas_trwania,Pracownicy)
+        save_to_table(Kolejnosc=best_ord_sw,Rozpoczecie=Rozpoczecie,Zakonczenie=Zakonczenia,Czas_trwania=Czas_trwania,
+        Pracownicy=Pracownicy,Graph=Graph)
     
     fig, ax = plt.subplots() 
 
     for i in range(1,len(Rozpoczecie)-1):
+
         for j in Pracownicy[i]:
             ax.hlines(j,Rozpoczecie[i],Zakonczenia[i], colors=COLORS[Graph.job[i]])
     ax.set_title("Harmonogram Czasu Pracy")
@@ -125,4 +127,4 @@ def print_harmonogram(sequence, NB, dyer_number, COLORS):
 
 # przeprowadz_badania(NB=NB, run=run, sequence=sequence, debug=debug)
 
-print_harmonogram(sequence=sequence, NB=NB, dyer_number=dyer_number, COLORS=COLORS)
+# print_harmonogram(sequence=sequence, NB=NB, dyer_number=dyer_number, COLORS=COLORS)

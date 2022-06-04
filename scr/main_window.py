@@ -7,7 +7,7 @@ ADD_DRYER = "dryer_20_t"
 SYMBOL_LIST= ["C","E","K","U","S","W","-"]
 NB = [1, 2, 3, 4, 5, 6, 7, 8]
 sequence =[0, 1, 2, 3, 4, 5, 6, 7, 8]
-dyer_number = 2
+dyer_number = 1
 
 
 def add_20_t():
@@ -136,6 +136,9 @@ def wypisz_harmonogram(best_Cmax_sw, C_best_sw, best_ord_sw):
     output.delete(0.0,tkinter.END)
     output.insert("1.0", data)
 
+def zapisz_do_pliku_harmonogram():
+    print("Siema")
+
 
 #Okinko
 window =tkinter.Tk()
@@ -238,6 +241,10 @@ tkinter.Button(ramka_harmonogram,text="Harmonogramuj",
 tkinter.Button(ramka_harmonogram,text="Wyswietl",
              command=wyswietl_harmonogram, width = 15, height = 1
              ).grid(row=3,column=4, rowspan=1, sticky='E',pady=2, padx = 5)
+
+tkinter.Button(ramka_harmonogram,text="Zapisz do pliku",
+             command=zapisz_do_pliku_harmonogram, width = 15, height = 1
+             ).grid(row=3,column=6, rowspan=1, sticky='E',pady=2, padx = 5)
 
 
 #ramka_komunikacji

@@ -75,19 +75,19 @@ class CGraph():
 
         return ORD        
 
-    def Harm(self, ord:list) -> list:
+    # def Harm(self, ord:list) -> list:
 
-        S = [None] * (self.n + 1 )
-        S[0] = 0
+    #     S = [None] * (self.n + 1 )
+    #     S[0] = 0
 
-        for i in range(1, self.n + 1):
-            nd = ord[i]
-            sm = 0
-            for arc in self.Pred[nd]:
-                if (sm < S[arc.nd] + self.p[arc.nd] + arc.weight):
-                    sm = S[arc.nd] + self.p[arc.nd] + arc.weight
-            S[nd] = sm
-        return S
+    #     for i in range(1, self.n + 1):
+    #         nd = ord[i]
+    #         sm = 0
+    #         for arc in self.Pred[nd]:
+    #             if (sm < S[arc.nd] + self.p[arc.nd] + arc.weight):
+    #                 sm = S[arc.nd] + self.p[arc.nd] + arc.weight
+    #         S[nd] = sm
+    #     return S
 
     def mergeGraf(self, G1):
         for i in range(1,len(G1.p)):
